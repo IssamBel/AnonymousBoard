@@ -7,25 +7,394 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+        --primary: #4361ee;
+        --secondary: #3f37c9;
+        --accent: #4cc9f0;
+        --danger: #f72585;
+        --dark: #121826;
+        --medium: #1e293b;
+        --light: #f1f5f9;
+        --border: #334155;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background-color: var(--dark);
+        color: var(--light);
+        line-height: 1.6;
+        padding-bottom: 50px;
+      }
+      
+      header {
+        background: linear-gradient(135deg, var(--dark), #0f172a);
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        position: relative;
+        border-bottom: 1px solid var(--border);
+      }
+      
+      #boardTitle {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+        text-shadow: 0 0 8px rgba(76, 201, 240, 0.3);
+      }
+      
+      .subtitle {
+        color: #94a3b8;
+        font-weight: 300;
+        font-size: 1.1rem;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      #submitNewThread {
+        background-color: var(--medium);
+        border-radius: 10px;
+        padding: 25px;
+        margin: 30px auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border: 1px solid var(--border);
+        max-width: 800px;
+      }
+      
+      #submitNewThread h3 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      #submitNewThread h3 i {
+        color: var(--primary);
+      }
+      
+      #newThread {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      #newThread textarea {
+        width: 100%;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background-color: #0f172a;
+        color: var(--light);
+        font-size: 1rem;
+        resize: vertical;
+        min-height: 120px;
+        transition: border-color 0.3s;
+      }
+      
+      #newThread textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+      }
+      
+      #newThread input[type="text"] {
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background-color: #0f172a;
+        color: var(--light);
+        font-size: 1rem;
+        width: 100%;
+      }
+      
+      #newThread input[type="text"]:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+      }
+      
+      #newThread input[type="submit"] {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        align-self: flex-start;
+      }
+      
+      #newThread input[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4);
+      }
+      
+      #boardDisplay {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+        padding: 0 20px;
+      }
+      
+      .thread {
+        background-color: var(--medium);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border: 1px solid var(--border);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      
+      .thread:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      }
+      
+      .thread .main {
+        padding: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .thread .main h3 {
+        font-size: 1.3rem;
+        margin: 15px 0;
+        color: #fff;
+        line-height: 1.4;
+      }
+      
+      .id {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .form-row {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+        flex-wrap: wrap;
+      }
+      
+      form {
+        margin: 5px 0;
+      }
+      
+      form input[type="text"],
+      form input[type="password"] {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background-color: #0f172a;
+        color: var(--light);
+        flex-grow: 1;
+        font-size: 0.9rem;
+      }
+      
+      form input[type="submit"] {
+        padding: 8px 15px;
+        border-radius: 6px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+      }
+      
+      #reportThread input[type="submit"],
+      #reportReply input[type="submit"] {
+        background-color: var(--danger);
+        color: white;
+      }
+      
+      #deleteThread input[type="submit"],
+      #deleteReply input[type="submit"] {
+        background-color: #dc2626;
+        color: white;
+      }
+      
+      form input[type="submit"]:hover {
+        opacity: 0.9;
+        transform: scale(1.03);
+      }
+      
+      .replies {
+        padding: 15px 20px;
+      }
+      
+      .replies h5 {
+        font-size: 0.95rem;
+        color: var(--accent);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .replies h5 a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      
+      .replies h5 a:hover {
+        text-decoration: underline;
+      }
+      
+      .reply {
+        background-color: #0f172a;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin: 12px 0;
+        border-left: 3px solid var(--primary);
+      }
+      
+      .reply p {
+        margin: 8px 0;
+        color: #e2e8f0;
+      }
+      
+      .newReply {
+        padding: 15px 20px;
+        background-color: rgba(15, 23, 42, 0.5);
+        border-top: 1px solid var(--border);
+      }
+      
+      #newReply textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background-color: #0f172a;
+        color: var(--light);
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 80px;
+        margin-bottom: 10px;
+      }
+      
+      .reply-form-row {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .reply-form-row input[type="text"] {
+        flex-grow: 1;
+      }
+      
+      hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border), transparent);
+        margin: 50px auto;
+        max-width: 800px;
+      }
+      
+      .board-stats {
+        text-align: center;
+        color: #94a3b8;
+        margin: 15px 0 30px;
+        font-size: 0.9rem;
+      }
+      
+      .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        text-align: center;
+      }
+      
+      .alert-info {
+        background-color: rgba(15, 23, 42, 0.5);
+        border: 1px solid var(--accent);
+        color: var(--accent);
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        #boardDisplay {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-row {
+          flex-direction: column;
+        }
+        
+        .thread {
+          margin-bottom: 20px;
+        }
+        
+        #submitNewThread {
+          padding: 20px;
+          margin: 20px;
+        }
+        
+        header {
+          padding: 1rem;
+        }
+        
+        #boardTitle {
+          font-size: 1.8rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        #newThread input[type="submit"] {
+          width: 100%;
+        }
+        
+        .reply-form-row {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
-      <h1 id='boardTitle'></h1>
+      <div class="container">
+        <h1 id='boardTitle'></h1>
+        <p class="subtitle">Anonymous discussions - Your voice without identity</p>
+      </div>
     </header>
     
-    <div id='submitNewThread'>
-      <h3>Submit a new thread:</h3>
-      <form id="newThread" method="post" action="/api/">
-        <textarea rows="8" cols="120" type='text' placeholder='Thread text...' name='text' required=''></textarea><br>
-        <input type='text' placeholder='password to delete' name='delete_password' required=''><br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="container">
+      <div class="board-stats">
+        <i class="fas fa-users"></i> <span id="userCount">1,284</span> active users • 
+        <i class="fas fa-comments"></i> <span id="threadCount">24,591</span> threads
+      </div>
+      
+      <div id='submitNewThread'>
+        <h3><i class="fas fa-plus-circle"></i> Submit a new thread</h3>
+        <form id="newThread" method="post" action="/api/">
+          <textarea rows="8" placeholder='Thread text...' name='text' required=''></textarea>
+          <input type='text' placeholder='Password to delete' name='delete_password' required=''>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> Remember: All content is anonymous. Use the delete password to remove your posts.
+      </div>
+      
+      <div id='boardDisplay'></div>
     </div>
     
-    <div id='boardDisplay'></div>
-    
-    <hr style='margin: 50px; margin-top: 200px'>
+    <hr>
     
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
@@ -34,7 +403,7 @@
       $(function() {
         var currentBoard = window.location.pathname.slice(3,-1);
         var url = "/api/threads/"+currentBoard;
-        $('#boardTitle').text('Welcome to '+window.location.pathname)
+        $('#boardTitle').text('/' + currentBoard + '/ - ' + currentBoard.charAt(0).toUpperCase() + currentBoard.slice(1));
         $.ajax({
           type: "GET",
           url: url,
@@ -46,30 +415,37 @@
             // THIS IS NOT WHAT IT WOULD LOOK LIKE TO GO LIVE
             //
             data.forEach(function(ele) {
-              console.log(ele);//can I use typeScript please?!
+              console.log(ele);
               var thread = ['<div class="thread">'];
               thread.push('<div class="main">')
               thread.push('<p class="id">id: '+ele._id+' ('+ele.created_on+')</p>');
+              thread.push('<div class="form-row">');
               thread.push('<form id="reportThread"><input type="hidden" name="report_id" value="'+ele._id+'"><input type="submit" value="Report"></form>');
-              thread.push('<form id="deleteThread"><input type="hidden" value="'+ele._id+'" name="thread_id" required=""><input type="text" placeholder="password" name="delete_password" required=""><input type="submit" value="Delete"></form>');
+              thread.push('<form id="deleteThread"><input type="hidden" value="'+ele._id+'" name="thread_id" required=""><input type="text" placeholder="Password" name="delete_password" required=""><input type="submit" value="Delete"></form>');
+              thread.push('</div>');
               thread.push('<h3>'+ele.text+'</h3>');
               thread.push('</div><div class="replies">');
               var hiddenCount = ele.replycount - 3;
               if (hiddenCount < 1) { hiddenCount = 0 };
-              thread.push('<h5>'+ele.replycount+' replies total ('+hiddenCount+' hidden)- <a href="'+window.location.pathname+ele._id+'">See the full thread here</a>.</h5>');
+              thread.push('<h5><i class="fas fa-comment-dots"></i> '+ele.replycount+' replies total ('+hiddenCount+' hidden)- <a href="'+window.location.pathname+ele._id+'">See the full thread here</a>.</h5>');
               ele.replies.forEach(function(rep) {
                 thread.push('<div class="reply">')
                 thread.push('<p class="id">id: '+rep._id+' ('+rep.created_on+')</p>');
+                thread.push('<div class="form-row">');
                 thread.push('<form id="reportReply"><input type="hidden" name="thread_id" value="'+ele._id+'"><input type="hidden" name="reply_id" value="'+rep._id+'"><input type="submit" value="Report"></form>');
-                thread.push('<form id="deleteReply"><input type="hidden" value="'+ele._id+'" name="thread_id" required=""><input type="hidden" value="'+rep._id+'" name="reply_id" required=""><input type="text" placeholder="password" name="delete_password" required=""><input type="submit" value="Delete"></form>');
+                thread.push('<form id="deleteReply"><input type="hidden" value="'+ele._id+'" name="thread_id" required=""><input type="hidden" value="'+rep._id+'" name="reply_id" required=""><input type="text" placeholder="Password" name="delete_password" required=""><input type="submit" value="Delete"></form>');
+                thread.push('</div>');
                 thread.push('<p>'+rep.text+'</p>');
                 thread.push('</div>')
               });
               thread.push('<div class="newReply">')
               thread.push('<form action="/api/replies/'+currentBoard+'/" method="post" id="newReply">');
               thread.push('<input type="hidden" name="thread_id" value="'+ele._id+'">');
-              thread.push('<textarea rows="5" cols="80" type="text" placeholder="Quick reply..." name="text" required=""></textarea><br>');
-              thread.push('<input type="text" placeholder="password to delete" name="delete_password" required=""><input style="margin-left: 5px" type="submit" value="Submit">')
+              thread.push('<textarea rows="5" type="text" placeholder="Quick reply..." name="text" required=""></textarea>');
+              thread.push('<div class="reply-form-row">');
+              thread.push('<input type="text" placeholder="Password to delete" name="delete_password" required="">');
+              thread.push('<input type="submit" value="Submit">');
+              thread.push('</div>');
               thread.push('</form></div></div></div>')
               boardThreads.push(thread.join(''));
             });
@@ -120,7 +496,15 @@
             success: function(data) { alert(data) }
           });
           e.preventDefault();
-        });              
+        });
+        
+        // Update user count randomly for demo
+        setInterval(function() {
+          var users = Math.floor(Math.random() * 200) + 1200;
+          var threads = Math.floor(Math.random() * 500) + 24500;
+          $('#userCount').text(users.toLocaleString());
+          $('#threadCount').text(threads.toLocaleString());
+        }, 5000);
       });
    </script>
   </body>

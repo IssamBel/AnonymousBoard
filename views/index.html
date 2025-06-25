@@ -1,18 +1,226 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Anonymous Message Board</title>
+    <title>Anonymous Message Board - Testing</title>
     <meta name="description" content="freeCodeCamp project boilerplate">
     <link id="favicon" rel="icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./public/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+        --primary: #4361ee;
+        --secondary: #3f37c9;
+        --accent: #4cc9f0;
+        --danger: #f72585;
+        --success: #2ecc71;
+        --dark: #121826;
+        --medium: #1e293b;
+        --light: #f1f5f9;
+        --border: #334155;
+        --text-light: #e2e8f0;
+        --text-muted: #94a3b8;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background-color: var(--dark);
+        color: var(--text-light);
+        line-height: 1.6;
+        padding-bottom: 50px;
+      }
+      
+      header {
+        background: linear-gradient(135deg, var(--dark), #0f172a);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        border-bottom: 1px solid var(--border);
+      }
+      
+      header h1 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+        text-shadow: 0 0 8px rgba(76, 201, 240, 0.3);
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+        margin: 2rem auto;
+        max-width: 1200px;
+        padding: 0 20px;
+        color: var(--text-light);
+      }
+      
+      h2 a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      
+      h2 a:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      
+      h2 i {
+        color: var(--accent);
+        font-style: normal;
+        background-color: rgba(76, 201, 240, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--accent);
+      }
+      
+      #testui {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      .api-section {
+        background-color: var(--medium);
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border: 1px solid var(--border);
+      }
+      
+      .api-section h4 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .api-section h4::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent);
+        border-radius: 50%;
+      }
+      
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      input[type="text"],
+      input[type="password"],
+      textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background-color: #0f172a;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+      
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      
+      input[type="text"]:focus,
+      input[type="password"]:focus,
+      textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+      }
+      
+      input[type="submit"] {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        align-self: flex-start;
+        min-width: 120px;
+      }
+      
+      input[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4);
+      }
+      
+      hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border), transparent);
+        margin: 30px 0;
+      }
+      
+      .method-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+      
+      .post-method {
+        background-color: var(--success);
+        color: white;
+      }
+      
+      .put-method {
+        background-color: #f39c12;
+        color: white;
+      }
+      
+      .delete-method {
+        background-color: var(--danger);
+        color: white;
+      }
+      
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 1.8rem;
+        }
+        
+        h2 {
+          font-size: 1.3rem;
+          margin: 1.5rem auto;
+        }
+        
+        .api-section {
+          padding: 20px;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        input[type="submit"] {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
       <h1>
-        IS_2 - Anonymous Message Board
+        IS_2 - Anonymous Message Board Testing
       </h1>
     </header>
     <h2>
@@ -22,61 +230,73 @@
          board
       </a>
     </h2>
-    <div id='testui' style='margin-left: 5%'>
+    <div id='testui'>
       <h2 style="text-align: left">API Tests:</h2>
-        <h4>New thread (POST /api/threads/:board)</h4>
+      
+      <div class="api-section">
+        <h4>New thread <span class="method-badge post-method">POST</span> /api/threads/:board</h4>
         <form action="/api/threads/test" method="post" id="newThread">
-          <input type='text' placeholder='board' id='board1' name='board' required=''><br>
-          <textarea type='text' placeholder='Thread text...' name='text' required=''></textarea><br>
-          <input type='text' placeholder='password to delete' name='delete_password' required=''><br>
+          <input type='text' placeholder='Board name' id='board1' name='board' required>
+          <textarea placeholder='Thread text...' name='text' required></textarea>
+          <input type='text' placeholder='Password to delete' name='delete_password' required>
           <input type="submit" value="Submit">
         </form>
-        <hr>
-        <h4>Report thread (PUT /api/threads/:board)</h4>
+      </div>
+      
+      <div class="api-section">
+        <h4>Report thread <span class="method-badge put-method">PUT</span> /api/threads/:board</h4>
         <form id="reportThread">
-          <input type='text' placeholder='board' id='board2' name='board' required=''><br>
-          <input type='text' placeholder='id to report' name='thread_id' required=''><br>
+          <input type='text' placeholder='Board name' id='board2' name='board' required>
+          <input type='text' placeholder='Thread ID to report' name='thread_id' required>
           <input type="submit" value="Submit">
         </form>
-        <hr>
-        <h4>Delete thread (DELETE /api/threads/:board)</h4>
+      </div>
+      
+      <div class="api-section">
+        <h4>Delete thread <span class="method-badge delete-method">DELETE</span> /api/threads/:board</h4>
         <form id="deleteThread">
-          <input type='text' placeholder='board' id='board3' name='board' required=''><br>
-          <input type='text' placeholder='id to delete' name='thread_id' required=''><br>
-          <input type='text' placeholder='password' name='delete_password' required=''><br>
+          <input type='text' placeholder='Board name' id='board3' name='board' required>
+          <input type='text' placeholder='Thread ID to delete' name='thread_id' required>
+          <input type='text' placeholder='Password' name='delete_password' required>
           <input type="submit" value="Submit">
         </form>
-        <hr>
-        
-        
-        <h4>New reply (POST /api/replies/:board)</h4>
+      </div>
+      
+      <div class="api-section">
+        <h4>New reply <span class="method-badge post-method">POST</span> /api/replies/:board</h4>
         <form action="/api/replies/test" method="post" id="newReply">
-          <input type='text' placeholder='board' id='board4' name='board' required=''><br>
-          <input type='text' placeholder='thread id' name='thread_id' required=''><br>
-          <textarea type='text' placeholder='Thread text...' name='text' required=''></textarea><br>
-          <input type='text' placeholder='password to delete' name='delete_password' required=''><br>
+          <input type='text' placeholder='Board name' id='board4' name='board' required>
+          <input type='text' placeholder='Thread ID' name='thread_id' required>
+          <textarea placeholder='Reply text...' name='text' required></textarea>
+          <input type='text' placeholder='Password to delete' name='delete_password' required>
           <input type="submit" value="Submit">
         </form>
-        <hr>
-        <h4>Report reply (PUT /api/replies/:board)</h4>
+      </div>
+      
+      <div class="api-section">
+        <h4>Report reply <span class="method-badge put-method">PUT</span> /api/replies/:board</h4>
         <form id="reportReply">
-          <input type='text' placeholder='board' id='board5' name='board' required=''><br>
-          <input type='text' placeholder='thread id' name='thread_id' required=''><br>
-          <input type='text' placeholder='id to report' name='reply_id' required=''><br>
+          <input type='text' placeholder='Board name' id='board5' name='board' required>
+          <input type='text' placeholder='Thread ID' name='thread_id' required>
+          <input type='text' placeholder='Reply ID to report' name='reply_id' required>
           <input type="submit" value="Submit">
         </form>
-        <hr>
-        <h4>Delete reply (DELETE /api/replies/:board)</h4>
+      </div>
+      
+      <div class="api-section">
+        <h4>Delete reply <span class="method-badge delete-method">DELETE</span> /api/replies/:board</h4>
         <form id="deleteReply">
-          <input type='text' placeholder='board' id='board6' name='board' required=''><br>
-          <input type='text' placeholder='thread id' name='thread_id' required=''><br>
-          <input type='text' placeholder='id to delete' name='reply_id' required=''><br>
-          <input type='text' placeholder='password' name='delete_password' required=''><br>
+          <input type='text' placeholder='Board name' id='board6' name='board' required>
+          <input type='text' placeholder='Thread ID' name='thread_id' required>
+          <input type='text' placeholder='Reply ID to delete' name='reply_id' required>
+          <input type='text' placeholder='Password' name='delete_password' required>
           <input type="submit" value="Submit">
-        </form>        
+        </form>
+      </div>
     </div>
-    <hr style='margin: 50px; margin-top: 200px'>
-    <!-- Your web-app is https, so your scripts need to be too -->
+    
+    <hr style='margin: 50px; margin-top: 50px'>
+    
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
             crossorigin="anonymous"></script>
