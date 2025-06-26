@@ -8,214 +8,234 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/style.css">       <!-- Absolute path -->
+    <link rel="stylesheet" href="../public/style.css">    <!-- Relative path -->
+    <link rel="stylesheet" href="public/style.css"> 
     <style>
-      :root {
-        --primary: #4361ee;
-        --secondary: #3f37c9;
-        --accent: #4cc9f0;
-        --danger: #f72585;
-        --success: #2ecc71;
-        --dark: #121826;
-        --medium: #1e293b;
-        --light: #f1f5f9;
-        --border: #334155;
-        --text-light: #e2e8f0;
-        --text-muted: #94a3b8;
-      }
       
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      body {
-        background-color: var(--dark);
-        color: var(--text-light);
-        line-height: 1.6;
-        padding-bottom: 50px;
-      }
-      
-      header {
-        background: linear-gradient(135deg, var(--dark), #0f172a);
-        padding: 2rem 1.5rem;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        border-bottom: 1px solid var(--border);
-      }
-      
-      header h1 {
-        font-size: 2.2rem;
-        margin-bottom: 0.5rem;
-        color: var(--accent);
-        text-shadow: 0 0 8px rgba(76, 201, 240, 0.3);
-      }
-      
-      h2 {
-        font-size: 1.5rem;
-        margin: 2rem auto;
-        max-width: 1200px;
-        padding: 0 20px;
-        color: var(--text-light);
-      }
-      
-      h2 a {
-        color: var(--primary);
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-      
-      h2 a:hover {
-        color: var(--accent);
-        text-decoration: underline;
-      }
-      
-      h2 i {
-        color: var(--accent);
-        font-style: normal;
-        background-color: rgba(76, 201, 240, 0.1);
-        padding: 2px 6px;
-        border-radius: 4px;
-        border: 1px solid var(--accent);
-      }
-      
-      #testui {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-      
-      .api-section {
-        background-color: var(--medium);
-        border-radius: 10px;
-        padding: 25px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        border: 1px solid var(--border);
-      }
-      
-      .api-section h4 {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-        color: var(--accent);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      
-      .api-section h4::before {
-        content: "";
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background-color: var(--accent);
-        border-radius: 50%;
-      }
-      
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      input[type="text"],
-      input[type="password"],
-      textarea {
-        width: 100%;
-        padding: 12px 15px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        background-color: #0f172a;
-        color: var(--text-light);
-        font-size: 1rem;
-        transition: border-color 0.3s;
-      }
-      
-      textarea {
-        min-height: 100px;
-        resize: vertical;
-      }
-      
-      input[type="text"]:focus,
-      input[type="password"]:focus,
-      textarea:focus {
-        border-color: var(--primary);
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
-      }
-      
-      input[type="submit"] {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-        align-self: flex-start;
-        min-width: 120px;
-      }
-      
-      input[type="submit"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4);
-      }
-      
-      hr {
-        border: none;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, var(--border), transparent);
-        margin: 30px 0;
-      }
-      
-      .method-badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-left: 10px;
-      }
-      
-      .post-method {
-        background-color: var(--success);
-        color: white;
-      }
-      
-      .put-method {
-        background-color: #f39c12;
-        color: white;
-      }
-      
-      .delete-method {
-        background-color: var(--danger);
-        color: white;
-      }
-      
-      @media (max-width: 768px) {
-        header h1 {
-          font-size: 1.8rem;
-        }
-        
-        h2 {
-          font-size: 1.3rem;
-          margin: 1.5rem auto;
-        }
-        
-        .api-section {
-          padding: 20px;
-        }
-      }
-      
-      @media (max-width: 480px) {
-        input[type="submit"] {
-          width: 100%;
-        }
-      }
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.container {
+  padding: 0 15px;
+}
+
+/* ===== Typography ===== */
+h1, h2, h3, h4, h5 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin: 15px 0;
+}
+
+h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== Forms ===== */
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+textarea, input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+.form-row, .reply-form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+/* ===== Threads & Replies ===== */
+.thread {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.reply {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 3px solid #3498db;
+  border-radius: 0 5px 5px 0;
+}
+
+.id {
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+/* ===== API Sections ===== */
+.api-section {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.method-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.post-method {
+  background-color: #2ecc71;
+}
+
+.put-method {
+  background-color: #f39c12;
+}
+
+.delete-method {
+  background-color: #e74c3c;
+}
+
+/* ===== Alerts & Info ===== */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+  border-left: 5px solid #31708f;
+}
+
+.board-stats {
+  background-color: #ecf0f1;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+/* ===== Links & Icons ===== */
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+i {
+  margin-right: 5px;
+}
+
+.fas {
+  color: #7f8c8d;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .form-row, .reply-form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  textarea {
+    min-height: 150px;
+  }
+}
     </style>
+      
   </head>
   <body>
     <header>
